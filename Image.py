@@ -22,7 +22,12 @@ class Image:
                         return (x,y,w,h)
 
         def update(self):
-                self.Rectangle = getFace(self.image)
+                img = self.image
+                face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+                gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) #grayscale
+                faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+                for (x,y,w,h) in faces: 
+                        self.Rectangle = (x,y,w,h)
 
         def imgParameters(self):
                 height, width = image.shape[:2]
@@ -49,4 +54,6 @@ class Image:
                 cv2.imshow('image',self.image)
                 cv2.waitKey(0)
                 cv2.destroyAllWindows()
+        def saveImage(self):
+                cv2.imwrite(self.fileName+"adjusted", self.image)
 

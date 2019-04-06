@@ -46,6 +46,14 @@ def createImage(baseImage, image1):
     cv2.imwrite("Blankspace.JPG", blankImage)
 
 tonyImage = Image(Tony)
-adjustImage(tonyImage)
-tonyImage.saveImage()
-createImage(baseImage,tonyImage)
+
+print("Tony Image Rectangle")
+print(tonyImage.Rectangle)
+print("Luo Image Rectangle")
+print(baseImage.Rectangle)
+
+#baseImage
+
+#adjustImage(tonyImage)
+#tonyImage.saveImage()
+#createImage(baseImage,tonyImage)

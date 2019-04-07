@@ -10,7 +10,6 @@ class ImageEyes:
         faces = face_cascade.detectMultiScale(gray,1.1,5)
         for (x1,y1,w1,h1) in faces:
             print (x1)
-            cv2.rectangle(img,(x1,y1),(x1+w1,y1+h1),(255,0,0),2)
             newgray = gray[y1:y1+h1,x1:x1+w1]
             eyes = eye_cascade.detectMultiScale(newgray)
             for (x, y, w, h) in eyes:

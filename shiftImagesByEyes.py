@@ -31,7 +31,7 @@ def adjustImage(toAdjust):
     img = cv2.resize(img, (width, height))
     toAdjust.setImage(img)
     toAdjust.update()
-    toAdjust.showImage()
+    cv2.imwrite("newImage.jpg", toAdjust.image)
 
 def createImage(baseImage, image1):
     wh = baseImage.imgParameters()
@@ -60,4 +60,4 @@ def createImage(baseImage, image1):
 tonyimage = ImageEyes("images/1.JPG")
 
 adjustImage(tonyimage)
-#createImage(baseimage, tonyimage)
+createImage(baseimage, tonyimage)

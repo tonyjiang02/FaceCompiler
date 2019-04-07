@@ -3,24 +3,28 @@ import numpy as np
 
 class ImageEyes:
     def getEyes(self, img):
-        Rectarray = []
+        grayscale_image = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # grayscale
+
         eye_cascade = cv2.CascadeClassifier('haarcascade_eye.xml')
         face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # grayscale
-        faces = face_cascade.detectMultiScale(gray,1.1,5)
+        faces = face_cascade.detectMultiScale(grayscale_image,1.1,5)
+        
+        rectarray = []
         for (x1,y1,w1,h1) in faces:
-            print (x1)
-            newgray = gray[y1:y1+h1,x1:x1+w1]
-            eyes = eye_cascade.detectMultiScale(newgray)
+            face_grayscale = grayscale_image[y1:y1+h1,x1:x1+w1]
+            eyes = eye_cascade.detectMultiScale(face_grayscale, 1.1, 8)
             for (x, y, w, h) in eyes:
-                Rectarray.append((x+x1,y+y1,w,h))
-        print(Rectarray)
-        return Rectarray
+                rectarray.append((x+x1,y+y1,w,h))
+        
+        if len(rectarray)==2:
+            return rectarray
+        else:
+            print("no eyes found")
+            return 0
 
     def paintEyes(self):
-        rectArr = self.Rectarray
-        for (ex,ey,ew,eh) in rectArr:
-            cv2.rectangle(self.image,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
+        for (x,y,w,h) in self.Rectarray:
+            cv2.rectangle(self.image,(x,y),(x+w,y+h),(0,255,0),2)
         cv2.imshow('img',self.image)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
@@ -35,6 +39,8 @@ class ImageEyes:
 
     def getMidpoints(self):  # midpoints of eyes
         rectarr = self.Rectarray
+        if(rectarr ==0):
+            return 0
         midpoints = []
         for rectangle in rectarr:
             x = rectangle[0]
@@ -51,8 +57,8 @@ class ImageEyes:
         y2 = self.Rectarray[1][1]
         return ((x2-x1)**2 + (y2-y1)**2)**0.5
 
-    def setImage(self, img):
-        self.image = img
+    def setImage(self, cv2_img):
+        self.image = cv2_img
 
     def getMidpointOfLine(self):
         x1 = self.Rectarray[0][0]
@@ -69,11 +75,9 @@ class ImageEyes:
         cv2.waitKey(0)
         cv2.destroyAllWindows()
 
-    def saveImage(self):
-        # cv2.imwrite("Adjusted.JPG", self.image)
-        pass
-    def test(self):
-        print('hello')
+    def saveImage(self, save_path):
+        cv2.imwrite(save_path, self.image)
+
     def __init__(self, fileName):
         self.fileName = fileName
         self.image = cv2.imread(fileName)

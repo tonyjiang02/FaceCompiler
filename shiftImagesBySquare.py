@@ -1,11 +1,14 @@
 from Image import *
 import numpy as np
-Tony = "Tony.JPG"
-Luo = "Luo.JPG"
-baseImage = Image(Luo)
 
 
 # get Area as a ratio of an entire image instead of a ratio of pixels later ....
+def shiftImageBySquare(frompath, baseImage, topath):
+    image = Image(frompath)
+    adjustImage(image)
+    createImage(topath, baseImage, topath)
+
+
 def getAreaRatio(image1, image2):
     return image1.getArea() / image2.getArea()
 
@@ -21,7 +24,7 @@ def adjustImage(toAdjust):
     toAdjust.update()
 
 
-def createImage(baseImage, image1):
+def createImage(topath, baseImage, image1):
     wh = baseImage.imgParameters()
     width = wh[0]
     height = wh[1]
@@ -43,17 +46,4 @@ def createImage(baseImage, image1):
             oldy = int(ycoord - yDifference)
             if oldy >= 0 and oldx >= 0 and oldy<height1 and oldx<width1:
                 blankImage[ycoord][xcoord] = image1.image[oldy][oldx]
-    cv2.imwrite("Blankspace.JPG", blankImage)
-
-tonyImage = Image("images/1.JPG")
-
-print("Tony Image Rectangle")
-print(tonyImage.Rectangle)
-print("Luo Image Rectangle")
-print(baseImage.Rectangle)
-
-#baseImage
-
-#adjustImage(tonyImage)
-#tonyImage.saveImage()
-#createImage(baseImage,tonyImage)
+    cv2.imwrite(topath, blankImage)

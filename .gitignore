@@ -220,7 +220,6 @@ dmypy.json
 # Ignore all local history of files
 .history
 
-# End of https://www.gitignore.io/api/python,jetbrains,visualstudiocode
 
 
 # Created by https://www.gitignore.io/api/macos
@@ -253,5 +252,3 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
-
-# End of https://www.gitignore.io/api/macos

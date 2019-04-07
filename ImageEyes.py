@@ -28,14 +28,7 @@ class ImageEyes:
         
     def update(self): #updates image after resizing face to be in center
         img = self.image
-        eye_cascade = cv2.CascadeClassifier('haarcascade_eye.xml')
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # grayscale
-        eyes = eye_cascade.detectMultiScale(gray, 1.3, 5)
-
-        Rectarray = []
-        for (x, y, w, h) in eyes:
-            Rectarray.append(x, y, w, h)
-        self.Rectarray = Rectarray
+        self.Rectarray = self.getEyes(img)
 
     def imgParameters(self):
         height, width = self.image.shape[:2]
@@ -51,8 +44,26 @@ class ImageEyes:
             h = rectangle[3]
             midpoints.append([x + w/2, y + h/2])
         return midpoints
+    
+    def getDistance(self):  # distances between eyes
+        x1 = self.Rectarray[0][0]
+        x2 = self.Rectarray[1][0]
+        y1 = self.Rectarray[0][1]
+        y2 = self.Rectarray[1][1]
+        return ((x2-x1)**2 + (y2-y1)**2)**0.5
+
     def setImage(self, img):
         self.image = img
+
+    def getMidpointOfLine(self):
+        x1 = self.Rectarray[0][0]
+        x2 = self.Rectarray[1][0]
+        y1 = self.Rectarray[0][1]
+        y2 = self.Rectarray[1][1]
+        return (
+            (x1 + x2) / 2,
+            (y1 + y2) / 2
+        )
 
     def showImage(self):
         cv2.imshow('image', self.image)
@@ -69,3 +80,4 @@ class ImageEyes:
         self.image = cv2.imread(fileName)
         self.Rectarray = self.getEyes(self.image)
         self.midpoints = self.getMidpoints()
+        self.distance = self.getDistance()

@@ -45,7 +45,7 @@ def createImage(baseImage, image1):
                 blankImage[ycoord][xcoord] = image1.image[oldy][oldx]
     cv2.imwrite("Blankspace.JPG", blankImage)
 
-tonyImage = Image(Tony)
+tonyImage = Image("images/1.JPG")
 
 print("Tony Image Rectangle")
 print(tonyImage.Rectangle)

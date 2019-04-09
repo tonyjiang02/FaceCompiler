@@ -1,6 +1,6 @@
 import os
 from shiftImagesByEyes import *
-from ImageEyes import *
+from ImageEyes.py import *
 
 fromdirectory = "images"
 todirectory = "adjustedimages"

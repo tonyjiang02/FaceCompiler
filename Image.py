@@ -44,7 +44,7 @@ class Image:
     def saveImage(self, save_path):
         cv2.imwrite(save_path, self.image)
 
-    def __init__(self, fileName):
-        self.fileName = fileName
-        self.image = cv2.imread(fileName)
+    def __init__(self, filename):
+        self.fileName = filename
+        self.image = cv2.imread(filename)
         self.Rectangle = self.getFace(self.image)
